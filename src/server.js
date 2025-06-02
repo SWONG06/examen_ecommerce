@@ -1,17 +1,15 @@
-const app = require('./app');
-const pool = require('./config/db');
+const express = require('express');
+const pool = require('./config/db'); // Asegúrate que esta ruta es correcta
 
-const PORT = process.env.PORT || 3000;
+const app = express();
 
-// Verificación de conexión a la DB al iniciar
-pool.query('SELECT NOW()')
-  .then(() => {
-    console.log('✅ PostgreSQL conectado');
-    app.listen(PORT, () => {
-      console.log(`🚀 Servidor en http://localhost:${PORT}`);
-    });
-  })
-  .catch(err => {
-    console.error('❌ Error de conexión a PostgreSQL:', err);
-    process.exit(1);
-  });
+// Prueba de conexión a la base de datos
+pool.query('SELECT NOW()', (err, res) => {
+  if (err) {
+    console.error('Error al conectar con PostgreSQL:', err);
+  } else {
+    console.log('Conexión exitosa a PostgreSQL. Hora actual:', res.rows[0].now);
+  }
+});
+
+// Resto de tu configuración del servidor...

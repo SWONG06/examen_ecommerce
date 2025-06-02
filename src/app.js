@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const logger = require('../middlewares/logger');
+const logger = require('./middlewares/logger');
 
 const app = express();
 
@@ -12,6 +12,6 @@ app.use(logger); // Middleware de logging
 app.use('/api/products', require('../routes/productsRoutes'));
 
 // Manejo de errores (debe ser el último middleware)
-app.use(require('../middlewares/errorHandler'));
+app.use(require('./middlewares/errorHandler'));
 
 module.exports = app;
