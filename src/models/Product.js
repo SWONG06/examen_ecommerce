@@ -1,5 +1,4 @@
-// Importa el pool de conexiones
-const { pool } = require('../config/db');
+const pool = require('../config/db');
 
 class Product {
   static async getAll() {

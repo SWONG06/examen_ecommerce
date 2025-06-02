@@ -1,6 +1,6 @@
-const Product = require('../models/Product');
-const ExternalApiService = require('../services/externalApiService');
-const { validateProduct } = require('../validations/productValidation');
+const Product = require('../../models/Product');
+const ExternalApiService = require('../../services/externalApiService');
+const productValidation = require('../validations/productValidation');
 
 const getAllProducts = async (req, res, next) => {
   try {
