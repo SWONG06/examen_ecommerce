@@ -1,4 +1,3 @@
-// controllers/productController.js
 const pool = require('../db');
 const { productSchema } = require('../validators/productValidator');
 const { getRandomImage } = require('./imageService');
