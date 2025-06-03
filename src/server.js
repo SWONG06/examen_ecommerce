@@ -1,6 +1,7 @@
 const express = require('express');
 const pool = require('./db'); // Asegúrate que tienes este archivo con la conexión a PostgreSQL
 const app = express();
+const logger = require('./middleware/logger');
 
 app.use(express.json());
 
