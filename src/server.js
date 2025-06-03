@@ -1,15 +1,17 @@
 const express = require('express');
-const pool = require('./config/db'); // Asegúrate que esta ruta es correcta
+const cors = require('cors');
+const logger = require('./middleware/logger');
+const errorHandler = require('./middleware/errorHandler');
+const productRoutes = require('./routes/productRoutes');
+require('dotenv').config();
 
 const app = express();
+app.use(cors());
+app.use(express.json());
+app.use(logger);
 
-// Prueba de conexión a la base de datos
-pool.query('SELECT NOW()', (err, res) => {
-  if (err) {
-    console.error('Error al conectar con PostgreSQL:', err);
-  } else {
-    console.log('Conexión exitosa a PostgreSQL. Hora actual:', res.rows[0].now);
-  }
-});
+app.use('/api/products', productRoutes);
+app.use(errorHandler);
 
-// Resto de tu configuración del servidor...
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
