@@ -1,27 +1,21 @@
 const express = require('express');
-const cors = require('cors');
-const logger = require('./middleware/logger');
-const errorHandler = require('./middleware/errorHandler');
-const productRoutes = require('./routes/productRoutes');
-const pool = require('./db');
 require('dotenv').config();
+const pool = require('./db');
+const logger = require('./middleware/logger');
+app.use(logger);
 
 const app = express();
-app.use(cors());
-app.use(express.json());
-app.use(logger);
-app.use('/api/products', productRoutes);
+const PORT = process.env.PORT || 3000;
 
-app.get('/test-db', async (req, res) => {
+app.get('/', async (req, res) => {
   try {
     const result = await pool.query('SELECT NOW()');
-    res.json({ message: 'Conexión exitosa', time: result.rows[0].now });
+    res.send(`Conexión exitosa. Hora en BD: ${result.rows[0].now}`);
   } catch (error) {
-    res.status(500).json({ message: 'Error de conexión', error: error.message });
+    res.status(500).send('Error consultando la base de datos');
   }
 });
 
-app.use(errorHandler);
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
+});
